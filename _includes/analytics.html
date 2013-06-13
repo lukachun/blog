@@ -1,0 +1,8 @@
+<!-- GoStats -->
+<div class="span1 offset2">
+	<script type="text/javascript" src="https://ssl.gostats.com/js/counter.js"></script>
+	<script type="text/javascript">_gos='monster.gostats.cn';_goa=462580;_got=7;_goi=57;_goz=0;_god='visitors';_gol='流量计数器';_GoStatsRun();</script>
+	<noscript><a target="_blank" title="流量计数器" href="http://gostats.cn">
+		<img alt="流量计数器" src="https://ssl.gostats.com/bin/count/a_462580/t_7/i_57/z_0/show_visitors/ssl_monster.gostats.cn/counter.png" style="border-width:0" />
+	</a></noscript>
+</div>

@@ -1,0 +1,11 @@
+<div class="well">
+	<h6>文档信息</h6>
+	<hr />
+	<p>
+		版权声明：自由转载-非商用-非衍生-保持署名 | 
+		<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" title="Creative Commons &mdash; 署名-非商业性使用-禁止演绎 3.0 未本地化版本 &mdash; CC BY-NC-ND 3.0">Creative Commons BY-NC-ND 3.0</a>
+	</p>
+	<p>
+		原文网址：<a href="{{ site.baseurl }}/{{ page.url }}" title="{{ page.title }}">{{ site.url }}{{ page.url }}</a>
+	</p>
+</div>

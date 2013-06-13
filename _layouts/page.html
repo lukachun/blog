@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% include head_common.html %}
+	<title>{{ page.title }}</title>
+</head>
+<body>
+
+	<div class="container">
+		<div class="row-fluid">
+			<div class="span7 well">
+			{{ content }}
+			</div>
+			<!-- profile -->
+			<div class="span4 well">
+				<p class="span3">Welcome</p>
+				<li class="span3" ><script type="text/javascript" src="http://www.douban.com/service/badge/litefy/?show=collection&amp;select=favorite&amp;n=3&amp;columns=3&amp;hidelogo=yes&amp;cat=movie|book|site" ></script> </li>
+				<li class="span3"><a href="https://github.com/litefy">Github</a></li>
+				<li class="span3"><a href="https://github.com/litefy/blog">Blog repo</a></li>
+				<!-- 网站统计 -->
+				{% include analytics.html %}
+				<!-- Revolver Maps -->
+				<div class="span3">
+				<!--
+				<script type="text/javascript" src="http://jh.revolvermaps.com/m.js"></script><script type="text/javascript">rmm_ki101('0',130,'7zim1whwki2','ff0000');</script>
+				-->
+				<script type="text/javascript" src="http://jh.revolvermaps.com/r.js"></script><script type="text/javascript">rm_f1st('0','220','true','false','000000','7uz58u409nl','true','ff0000');</script><noscript><applet codebase="http://rh.revolvermaps.com/j" code="core.RE" width="220" height="220" archive="g.jar"><param name="cabbase" value="g.cab" /><param name="r" value="true" /><param name="n" value="false" /><param name="i" value="7uz58u409nl" /><param name="m" value="0" /><param name="s" value="220" /><param name="c" value="ff0000" /><param name="v" value="true" /><param name="b" value="000000" /><param name="rfc" value="true" /></applet></noscript>
+				</div>
+				
+			</div>
+			
+		</div>
+	</div>
+	
+</body>
+</html>

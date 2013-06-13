@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% include head_common.html %}
+	<title>{% if page.title %} {{ page.title }} | {% endif %}{{ site.description }}</title>
+</head>
+<body>
+
+	<div class="container">
+		<!-- 导航 -->
+		<div class="span6">
+			<ul class="nav nav-pills">
+				<li class="active"><a>Litefy's Blog</a></li>
+				<li><a href="{{site.baseurl}}/">>> Home</a></li>
+				<li><a>>> Archives</a></li>
+			</ul>
+		</div>
+		
+		<div class="row">
+			<div class="span8">
+				<!-- 标题 -->
+				<h1 class="span8 offset2">{{page.title}}</h1>
+				<!-- 正文 -->
+				<div class="span8 offset1">
+					{{ content }}
+					<br />
+					<!-- 文档信息 -->
+					{% include document_info.html %}
+					<hr />
+				</div>
+				<!-- 评论 -->
+				{% include comments.html %}
+				<!-- 网站统计 -->
+				{% include analytics.html %}
+			</div>
+			<div class="span3">
+				<!-- RSS -->
+				<div class="span2 offset1 btn-group">
+					<button class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+						RSS
+						<span class="caret">
+					</button>
+					<ul class="dropdown-menu">
+					<li>
+						<a href="{{ site.feed }}">Atom</a>
+					</li>
+					<li>
+						<a href="http://www.google.com/ig/add?feedurl={{ site.feed }}">Google Reader</a>
+					</li>
+					<li>
+						<a href="http://9.douban.com/reader/subscribe?url={{ site.feed }}" target="_blank"><img src="http://www.douban.com/pics/newnine/feedbutton1.gif"/></a> 
+					</li>
+					</ul>
+				</div>
+				<!-- 日期 -->
+				<div class="span2 offset1">
+					{{ page.date | date: "%Y-%m-%d" }}
+				</div>
+				<!--
+				<div class="span2 offset1">
+					Categories: {% for category in page.categorys %} <a href="{{site.baseurl}}/category/{{ category }}"> {{ category }} </a>{% endfor %}
+				</div>
+				-->
+				{% if page.tags[0] %}
+				<div class="span2 offset1">
+					Tags: {% for tag in page.tags %} <a href="{{ site.baseurl }}/tag.html#{{ tag }}">{{ tag }}</a> {% endfor %}
+				</div>
+				{% endif %}
+				
+			</div>
+		</div>
+	</div>
+	
+	<!--
+	</br>
+	{{paginator}}
+	
+	-->
+	
+</body>
+</html>

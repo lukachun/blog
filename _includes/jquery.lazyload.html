@@ -1,0 +1,14 @@
+<!-- 放在内容底部 -->
+<script src="{{site.baseurl}}/js/jquery.lazyload.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var lazy_imgs = $("img.lazy");
+	$.each(lazy_imgs, function() {
+		var lazy_img = $(this);
+		lazy_img.attr('data-original', lazy_img.attr('src')).removeAttr('src');
+	});
+	lazy_imgs.lazyload({
+		effect : "fadeIn"
+	});
+});
+</script>
