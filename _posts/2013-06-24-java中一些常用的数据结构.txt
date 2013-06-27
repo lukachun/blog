@@ -1,0 +1,151 @@
+---
+layout: post
+---
+
+### 一、ArrayList与LinkedList的性能比较
+    ArrayList长于随机访问元素，但是在List中间插入和移除元素时较慢
+    LinkedList通过较低的在List中间进行的插入和删除操作，提供优化的顺序访问。在随机访问方面相对于ArrayList比较慢
+    以上是<<Java编程思想>>一书对这两种类型的比较
+   
+    现在我们从源码中看一下为什么这两者会产生性能上的差异：
+    
+	public class ArrayList<E> extends ...
+	{
+	    ...
+		private transient Object[] elementData;
+		...
+		E elementData(int index) {
+			return (E) elementData[index];
+        }
+	
+		public E get(int index) { //随机读取
+			rangeCheck(index); //检查是否越界
+
+			return elementData(index); //直接通过数组下标返回数据，效率很高
+		}
+		
+		public E set(int index, E element) { //随机修改
+			rangeCheck(index);
+
+			E oldValue = elementData(index);
+			elementData[index] = element; //直接给数组元素赋值
+			return oldValue;
+		}
+		...
+		
+		//中间插入
+		public void add(int index, E element) {
+			rangeCheckForAdd(index);
+
+			ensureCapacityInternal(size + 1);  // Increments modCount!!
+			//System.arraycopy()方法在此处的作用是移位操作,对性能影响较大
+			System.arraycopy(elementData, index, elementData, index + 1,
+							 size - index);
+			elementData[index] = element;
+			size++;
+		}
+		
+		//中间删除
+		public E remove(int index) {
+			rangeCheck(index);
+
+			modCount++;
+			E oldValue = elementData(index);
+
+			int numMoved = size - index - 1;
+			if (numMoved > 0) //如果删除位置不是最后一个节点,则需要移位操作
+				System.arraycopy(elementData, index+1, elementData, index,
+								 numMoved);
+			elementData[--size] = null; // Let gc do its work
+
+			return oldValue;
+        }
+	}
+	
+	public class LinkedList<E> extends ...
+	{
+		...
+		private static class Node<E> { //可以看出LinkedList采用的是双链表结构
+			E item;
+			Node<E> next;
+			Node<E> prev;
+
+			Node(Node<E> prev, E element, Node<E> next) {
+				this.item = element;
+				this.next = next;
+				this.prev = prev;
+			}
+		}
+		...
+		public E get(int index) { //随机读取需要对链表进行遍历，性能不如ArrayList
+			checkElementIndex(index);
+			return node(index).item; //node(index)方法需要遍历链表
+		}
+		...
+		public E set(int index, E element) { //随机修改
+			checkElementIndex(index);
+			Node<E> x = node(index); //node(index)方法需要遍历链表
+			E oldVal = x.item;
+			x.item = element;
+			return oldVal;
+		}
+		...
+		Node<E> node(int index) {
+			// assert isElementIndex(index);
+			if (index < (size >> 1)) { //如果index的位置在前半部分，则从头开始遍历到index位置
+				Node<E> x = first;
+				for (int i = 0; i < index; i++)
+					x = x.next;
+				return x;
+			} else { //否则就从后开始遍历
+				Node<E> x = last;
+				for (int i = size - 1; i > index; i--)
+					x = x.prev;
+				return x;
+			}
+		}
+		
+		//中间插入
+		public void add(int index, E element) {
+			checkPositionIndex(index);
+
+			if (index == size)
+				linkLast(element);
+			else
+				linkBefore(element, node(index)); //node(index)方法虽然会遍历链表，但是不需要进行移位操作，性能损耗少
+		}
+		...
+		//中间删除
+		public E remove(int index) {
+			checkElementIndex(index);
+			return unlink(node(index));
+		}
+		...
+		//删除找到的节点
+		E unlink(Node<E> x) {
+			// assert x != null;
+			final E element = x.item;
+			final Node<E> next = x.next;
+			final Node<E> prev = x.prev;
+
+			if (prev == null) {
+				first = next;
+			} else {
+				prev.next = next;
+				x.prev = null;
+			}
+
+			if (next == null) {
+				last = prev;
+			} else {
+				next.prev = prev;
+				x.next = null;
+			}
+
+			x.item = null;
+			size--;
+			modCount++;
+			return element;
+		}
+	}
+	总结：从上面两个类的比较可以看出，在随机访问方面，ArrayList类直接根据数组下标访问数组，而LinkedList需要遍历链表找到节点，从而ArrayList的随机访问性能优于LinkedList;而在中间插入和删除方面，ArrayList需要进行移位操作，而LinkedList只需要遍历链表，从而ArrayList的中间插入和删除性能不如LinkedList，但是需要记住的是，这个比较只是一般情况的比较，如果插入和删除的位置靠近链表的末尾，则ArrayList的移位操作只需要操作很少的一部分数据，效率可能会比LinkedList要好。
